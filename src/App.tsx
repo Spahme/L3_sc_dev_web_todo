@@ -4,11 +4,10 @@ import { useState } from "react";
 import { NewTaskPopup} from "./components/Task/Add"; 
 import { ChangeStatus } from "./components/Task/ChangeStatus";
 import { Update } from "./components/Task/Update";
-
 import type { TaskStatus } from "./Task";
 
+// * types des filtres
 type TaskFilters = "all" | TaskStatus;
-
 const filters: TaskFilters[] = ["all", "todo", "doing", "done"];
 
 export default function Home() {

@@ -1,34 +1,28 @@
 import { useState } from "react";
 
-export function AddNewTask({ onAdd }: { onAdd: (content: string) => void }) {
-  const [newTask, setNewTaskContent] = useState("");
+type AddNewTaskProps = { onAdd: (content: string) => void };
 
-  return (
-    <div className="addTaskContainer">
-      <input
-        type="text"
-        value={newTask}
-        onChange={e => setNewTaskContent(e.target.value)}
-        placeholder="Nouvelle tâche"
-        className="taskInput"
-      />
-      <button
-        onClick={() => {
-          if (!newTask.trim()) return;
-          onAdd(newTask);
-          setNewTaskContent("");
-        }}
-        className="addButton"
-      >
-        Ajouter
-      </button>
-    </div>
-  );
-}
 
-export function NewTaskPopup({ onAdd }: { onAdd: (content: string) => void }) {
+
+export function NewTaskPopup({ onAdd }:AddNewTaskProps ) {
   const [isPopupOpen, setIsPopupOpen] = useState(false);
+
+  const [newTask, setNewTask] = useState("");
+
   const togglePopup = () => setIsPopupOpen(!isPopupOpen);
+
+  function handleAdd(content: string) {
+    onAdd(content);
+    togglePopup();
+  }
+
+  function handleAddTask() {
+    if (!newTask.trim()) return;
+    handleAdd(newTask);
+    setNewTask("");
+  }
+
+
 
   return (
     <div className="newTaskPopup">
@@ -36,12 +30,21 @@ export function NewTaskPopup({ onAdd }: { onAdd: (content: string) => void }) {
         {isPopupOpen ? "Fermer" : "Ajouter une tâche"}
       </button>
       {isPopupOpen && (
-        <AddNewTask
-          onAdd={(c) => {
-            onAdd(c);
-            togglePopup();
-          }}
-        />
+        <div className="addTaskContainer">
+            <input
+              type="text"
+              value={newTask}
+              onChange={(e)=>setNewTask(e.target.value)}
+              placeholder="Nouvelle tâche"
+              className="taskInput"
+            />
+            <button
+              onClick={handleAddTask}
+              className="addButton"
+            >
+              Ajouter
+            </button>
+          </div>
       )}
     </div>
   );
