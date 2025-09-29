@@ -1,28 +1,26 @@
 import "./App.css";
 import { tasksCollection as initialTasks } from "./data";
 import { useState } from "react";
-import { NewTaskPopup, ChangeStatus} from "./components/Task_modules"; 
+import { NewTaskPopup} from "./components/Task/Add"; 
+import { ChangeStatus } from "./components/Task/ChangeStatus";
+import { Update } from "./components/Task/Update";
 
+import type { TaskStatus } from "./Task";
+
+type TaskFilters = "all" | TaskStatus;
+
+const filters: TaskFilters[] = ["all", "todo", "doing", "done"];
 
 export default function Home() {
-  const [AllTasks, AddNewTask] = useState(initialTasks);
-  const [filter, setFilter] = useState<"all" | "todo" | "doing" | "done">("all");
+  const [allTasks, AddNewTask] = useState(initialTasks);
+  const [filter, setFilter] = useState<TaskFilters>("all");
 
-
-  function ChangeContent(id: string) {
-    const newContent = prompt("Entrez le nouveau contenu de la tâche :");
-    if (newContent !== null) {
-      AddNewTask(prev =>
-        prev.map(task =>
-          task.id === id ? { ...task, content: newContent, updatedAt: new Date(), status: "todo" } : task
-        )
-      );
-      console.log(`Tâche ${id} mise à jour avec le contenu : ${newContent}`);
-
-    }
+  // * modifier le contenu
+  function HandleUpdateContent(id: string) {
+    Update(id, AddNewTask);
   }
 
-
+  // * ajouter une tâche
   function handleAddTask(content: string) {
     try {
       const value = content.trim();
@@ -30,7 +28,7 @@ export default function Home() {
 
       const next = [
         { id: crypto.randomUUID(), content: value, createdAt: new Date(), status: "todo" as const },
-        ...AllTasks,
+        ...allTasks,
       ];
       AddNewTask(next);
     } catch (error) {
@@ -38,7 +36,8 @@ export default function Home() {
     }
   }
 
-  function handleChangeStatus(id: string, status: "todo" | "doing" | "done") {
+  // * status
+  function handleChangeStatus(id: string, status:TaskStatus) {
     try {
       AddNewTask(prev =>
         prev.map(t =>
@@ -56,8 +55,8 @@ export default function Home() {
     }
   }
 
-  // application du filtre
-  const filteredTasks = AllTasks.filter(task => {
+  // * filtrer
+  const filteredTasks = allTasks.filter(task => {
     if (filter === "all") return true;
     return task.status === filter;
   });
@@ -77,18 +76,22 @@ export default function Home() {
         <select
           className="filterSelect"
           value={filter}
-          onChange={e => setFilter(e.target.value as "all" | "todo" | "doing" | "done")}
+          onChange={e => setFilter(e.target.value as TaskFilters)}
         >
-          <option value="all">Toutes</option>
-          <option value="todo">à faire</option>
-          <option value="doing">en cours</option>
-          <option value="done">terminé</option>
+
+        {
+          filters.map(f => (
+            <option key={f} value={f}>
+              {f === "all" ? "Toutes" : f === "todo" ? "à faire" : f === "doing" ? "en cours" : "terminé"}
+            </option>
+          ))
+        }
         </select>
 
         <ul className="taskList">
           {filteredTasks.map(task => (
             <li key={task.id}  className="taskItem">
-              <span onClick={() => ChangeContent(task.id)}>{task.content}</span>
+              <span onClick={() => HandleUpdateContent(task.id)}>{task.content}</span>
               <span className={`status ${task.status}`}></span>
               <ChangeStatus task={task} onChange={handleChangeStatus} />
             </li>
