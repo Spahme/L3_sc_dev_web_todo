@@ -52,6 +52,7 @@
     width: 100%;
     box-sizing: border-box;
     gap: 12px;
+    min-width: 400px;
 }
 
 .taskList ul {
@@ -156,4 +157,28 @@
 .addButton:disabled {
     opacity: 0.5;
     cursor: not-allowed;
+}
+
+.filterSelect {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 10px;
+    box-sizing: border-box;
+    padding: 0 10px;
+    height: 34px;
+    background-color: #111;
+    border: 1px solid #555;
+    border-radius: 4px;
+    color: #ddd;
+    font-size: 16px;
+    cursor: pointer;
+    align-items: center;
+    box-sizing: border-box;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    max-width: 400px;
 }
