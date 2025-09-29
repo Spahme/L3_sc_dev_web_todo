@@ -2,13 +2,9 @@ import { useState } from "react";
 
 type AddNewTaskProps = { onAdd: (content: string) => void };
 
-
-
 export function NewTaskPopup({ onAdd }:AddNewTaskProps ) {
   const [isPopupOpen, setIsPopupOpen] = useState(false);
-
   const [newTask, setNewTask] = useState("");
-
   const togglePopup = () => setIsPopupOpen(!isPopupOpen);
 
   function handleAdd(content: string) {
@@ -21,9 +17,7 @@ export function NewTaskPopup({ onAdd }:AddNewTaskProps ) {
     handleAdd(newTask);
     setNewTask("");
   }
-
-
-
+  
   return (
     <div className="newTaskPopup">
       <button onClick={togglePopup} className="addTaskButton">
