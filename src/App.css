@@ -95,6 +95,10 @@
     height: 24px;
 }
 
+.taskContent {
+    cursor: pointer;
+}
+
 .addTaskSection {
     width: 100%;
     display: flex;

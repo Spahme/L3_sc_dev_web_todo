@@ -91,7 +91,7 @@ export default function Home() {
         <ul className="taskList">
           {filteredTasks.map(task => (
             <li key={task.id}  className="taskItem">
-              <span onClick={() => HandleUpdateContent(task.id)}>{task.content}</span>
+              <span className="taskContent" onClick={() => HandleUpdateContent(task.id)}>{task.content}</span>
               <span className={`status ${task.status}`}></span>
               <ChangeStatus task={task} onChange={handleChangeStatus} />
             </li>
