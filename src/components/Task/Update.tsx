@@ -14,6 +14,4 @@ export function Update(
         : task
     )
   );
-
-  console.log(`Tâche ${id} mise à jour avec le contenu : ${newContent}`);
 }
