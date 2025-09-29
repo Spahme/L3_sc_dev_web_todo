@@ -1,8 +1,7 @@
 import "./App.css";
 import { tasksCollection as initialTasks } from "./data";
 import { useState } from "react";
-import { NewTaskPopup} from "./script/AddTask"; 
-import { ChangeStatus } from "./script/UpdateTask";
+import { NewTaskPopup, ChangeStatus} from "./components/Task_modules"; 
 
 
 export default function Home() {
