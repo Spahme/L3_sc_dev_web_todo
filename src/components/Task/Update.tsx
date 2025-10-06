@@ -5,7 +5,7 @@ export function Update(
   UpdateTask: React.Dispatch<React.SetStateAction<Task[]>>
 ) {
   const updatedContent = prompt("Entrez le nouveau contenu de la tâche :");
-  if (!updatedContent) return;
+  if (!updatedContent || updatedContent !== "") return;
 
   UpdateTask(prev =>
     prev.map(task =>
