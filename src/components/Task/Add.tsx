@@ -7,14 +7,11 @@ export function NewTaskPopup({ onAdd }:AddNewTaskProps ) {
   const [newTask, setNewTask] = useState("");
   const togglePopup = () => setIsPopupOpen(!isPopupOpen);
 
-  function handleAdd(content: string) {
-    onAdd(content);
-    togglePopup();
-  }
 
   function handleAddTask() {
     if (!newTask.trim()) return;
-    handleAdd(newTask);
+    onAdd(newTask);
+    togglePopup();
     setNewTask("");
   }
   
