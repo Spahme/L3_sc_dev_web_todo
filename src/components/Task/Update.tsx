@@ -9,9 +9,7 @@ export function Update(
 
   AddNewTask(prev =>
     prev.map(task =>
-      task.id === id
-        ? { ...task, content: newContent.trim(), updatedAt: new Date(), status: "todo" }
-        : task
+      task.id === id ? { ...task, content: newContent.trim(), updatedAt: new Date(), status: "todo" } : task
     )
   );
 }
