@@ -4,6 +4,7 @@ import { useState } from "react";
 import { NewTaskPopup} from "./components/Task/Add"; 
 import { ChangeStatus } from "./components/Task/ChangeStatus";
 import { Update } from "./components/Task/Update";
+import { Delete } from "./components/Task/Delete";
 import type { TaskStatus } from "./Task";
 
 // * types des filtres
@@ -11,12 +12,18 @@ type TaskFilters = "all" | TaskStatus;
 const filters: TaskFilters[] = ["all", "todo", "doing", "done"];
 
 export default function Home() {
-  const [allTasks, AddNewTask] = useState(initialTasks);
+  const [allTasks, Tasks] = useState(initialTasks);
   const [filter, setFilter] = useState<TaskFilters>("all");
+
+  // * filtrer
+  const filteredTasks = allTasks.filter(task => {
+    if (filter === "all") return true;
+    return task.status === filter;
+  });
 
   // * modifier le contenu
   function HandleUpdateContent(id: string) {
-    Update(id, AddNewTask);
+    Update(id, Tasks);
   }
 
   // * ajouter une tâche
@@ -25,20 +32,20 @@ export default function Home() {
       const value = content.trim();
       if (!value) return;
 
-      const next = [
+      const newTask = [
         { id: crypto.randomUUID(), content: value, createdAt: new Date(), status: "todo" as const },
         ...allTasks,
       ];
-      AddNewTask(next);
+      Tasks(newTask);
     } catch (error) {
       console.error("Erreur lors de l'ajout de la tâche :", error);
     }
   }
 
-  // * status
+  // * change le status
   function handleChangeStatus(id: string, status:TaskStatus) {
     try {
-      AddNewTask(prev =>
+      Tasks(prev =>
         prev.map(t =>
           t.id === id
             ? {
@@ -54,11 +61,12 @@ export default function Home() {
     }
   }
 
-  // * filtrer
-  const filteredTasks = allTasks.filter(task => {
-    if (filter === "all") return true;
-    return task.status === filter;
-  });
+  // * supprimer une tâche
+  function handleDeleteTask(id: string) {
+    Delete(id, () => {
+      Tasks(prev => prev.filter(task => task.id !== id));
+    });
+  }
 
   return (
     <div className="container">
@@ -93,6 +101,7 @@ export default function Home() {
               <span className="taskContent" onClick={() => HandleUpdateContent(task.id)}>{task.content}</span>
               <span className={`status ${task.status}`}></span>
               <ChangeStatus task={task} onChange={handleChangeStatus} />
+              <button className="deleteButton" onClick={() => handleDeleteTask(task.id)}></button>
             </li>
           ))}
         </ul>

@@ -25,12 +25,25 @@ export const tasksCollection: Task[] = [
     id: uuidv4(),
     content: "Faire mon TD Todo List",
     createdAt: new Date(),
-    status: "doing",
+    status: "done",
   },
   {
     id: uuidv4(),
     content: "Saire mon prenom dans le fichier README.md",
     createdAt: new Date(),
+    status: "done",
+  },
+  {
+    id: uuidv4(),
+    content: "Envoyer le TD sur Arche",
+    createdAt: new Date(),
+    status: "done",
+  },
+  {
+    id: uuidv4(),
+    content: "Envoyer le TD sur GitHub",
+    createdAt: new Date(),
     status: "todo",
   },
+  
 ];
