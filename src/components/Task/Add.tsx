@@ -1,18 +1,22 @@
 import { useState } from "react";
 
-type AddNewTaskProps = { onAdd: (content: string) => void };
+export type NewTaskProps = { onAdd: (content: string) => void };
 
-export function NewTaskPopup({ onAdd }:AddNewTaskProps ) {
+export function AddNewTask({ onAdd }:NewTaskProps ) {
   const [isPopupOpen, setIsPopupOpen] = useState(false);
-  const [newTask, setNewTask] = useState("");
+  const [newTask, setNewTask] = useState<string>("");
   const togglePopup = () => setIsPopupOpen(!isPopupOpen);
 
+
+  function resetForm() {
+    setNewTask("");
+  }
 
   function handleAddTask() {
     if (!newTask.trim()) return;
     onAdd(newTask);
     togglePopup();
-    setNewTask("");
+    resetForm();
   }
   
   return (

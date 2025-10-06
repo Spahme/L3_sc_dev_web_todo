@@ -1,6 +1,6 @@
 import type { Task } from "../../Task";
 
-export function Update(
+export function UpdateTask(
   id: string,
   UpdateTask: React.Dispatch<React.SetStateAction<Task[]>>
 ) {
@@ -13,3 +13,4 @@ export function Update(
     )
   );
 }
+  

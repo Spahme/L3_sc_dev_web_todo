@@ -1,4 +1,4 @@
-export function ChangeStatus({
+export function ChangeTaskStatus({
   task,
   onChange,
 }: {

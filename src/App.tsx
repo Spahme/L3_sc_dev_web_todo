@@ -1,18 +1,18 @@
 import "./App.css";
 import { tasksCollection as initialTasks } from "./data";
 import { useState } from "react";
-import { NewTaskPopup} from "./components/Task/Add"; 
-import { ChangeStatus } from "./components/Task/ChangeStatus";
-import { Update } from "./components/Task/Update";
-import { Delete } from "./components/Task/Delete";
-import type { TaskStatus } from "./Task";
+import { AddNewTask } from "./components/Task/Add"; 
+import { ChangeTaskStatus } from "./components/Task/ChangeStatus";
+import { UpdateTask } from "./components/Task/Update";
+import { DeleteTask } from "./components/Task/Delete";
+import type { Task, TaskStatus } from "./Task";
 
 // * types des filtres
 type TaskFilters = "all" | TaskStatus;
 const filters: TaskFilters[] = ["all", "todo", "doing", "done"];
 
 export default function Home() {
-  const [allTasks, Tasks] = useState(initialTasks);
+  const [allTasks, Tasks] = useState<Array<Task>>(initialTasks);
   const [filter, setFilter] = useState<TaskFilters>("all");
 
   // * filtrer
@@ -23,7 +23,7 @@ export default function Home() {
 
   // * modifier le contenu
   function HandleUpdateContent(id: string) {
-    Update(id, Tasks);
+    UpdateTask(id, Tasks);
   }
 
   // * ajouter une tâche
@@ -63,7 +63,7 @@ export default function Home() {
 
   // * supprimer une tâche
   function handleDeleteTask(id: string) {
-    Delete(id, () => {
+    DeleteTask(id, () => {
       Tasks(prev => prev.filter(task => task.id !== id));
     });
   }
@@ -73,11 +73,11 @@ export default function Home() {
       <main className="main">
         <header className="header">
           <h1 className="h1">Todo List</h1>
-          <h2 className="h2">nombre de tâches : {filteredTasks.length}</h2>
+          <h2 className="h2">{filteredTasks.length > 0 ? `nombre de tâches : ${filteredTasks.length}` : "Aucune tâche à afficher"}</h2>
         </header>
 
         <div className="addTaskSection">
-          <NewTaskPopup onAdd={handleAddTask} />
+          <AddNewTask onAdd={handleAddTask} />
         </div>
 
         <select
@@ -100,7 +100,7 @@ export default function Home() {
             <li key={task.id}  className="taskItem">
               <span className="taskContent" onClick={() => HandleUpdateContent(task.id)}>{task.content}</span>
               <span className={`status ${task.status}`}></span>
-              <ChangeStatus task={task} onChange={handleChangeStatus} />
+              <ChangeTaskStatus task={task} onChange={handleChangeStatus} />
               <button className="deleteButton" onClick={() => handleDeleteTask(task.id)}></button>
             </li>
           ))}
