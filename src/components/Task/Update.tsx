@@ -4,12 +4,12 @@ export function Update(
   id: string,
   UpdateTask: React.Dispatch<React.SetStateAction<Task[]>>
 ) {
-  const newContent = prompt("Entrez le nouveau contenu de la tâche :");
-  if (!newContent) return;
+  const updatedContent = prompt("Entrez le nouveau contenu de la tâche :");
+  if (!updatedContent) return;
 
   UpdateTask(prev =>
     prev.map(task =>
-      task.id === id ? { ...task, content: newContent.trim(), updatedAt: new Date(), status: "todo" } : task
+      task.id === id ? { ...task, content: updatedContent.trim(), updatedAt: new Date(), status: "todo" } : task
     )
   );
 }
