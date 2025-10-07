@@ -16,18 +16,25 @@ export default function Home() {
   const [allTasks, Tasks] = useState<Array<Task>>(initialTasks);
   const [filter, setFilter] = useState<TaskFilters>("all");
   
-  // * filtrer
+  // TODO Filtrer
+  // ? à chaque changement de filtre, recalculer les tâches affichées
+  // ? si "all" afficher tout
+  // ? sinon afficher que les tâches avec le status sélectionné
   const filteredTasks = allTasks.filter(task => {
     if (filter === "all") return true;
     return task.status === filter;
   });
-
-  // * modifier le contenu
+  // TODO modifier le contenu
+  // ? au clic sur le contenu, demander le nouveau contenu
+  // ? si le contenu est vide ou annulé, ne rien faire
+  // ? sinon mettre à jour la tâche avec le nouveau contenu, la date de mise à jour et remettre le status à "todo"
   function HandleUpdateContent(id: string) {
     UpdateTask(id, setTasks => Tasks(setTasks));
   }
 
-  // * ajouter une tâche
+  // TODO ajouter une tâche
+  /// ? si le contenu est vide ou annulé, ne rien faire
+  // ? sinon ajouter la tâche en tête de liste avec le status "todo" et la date de création
   function handleAddTask(content: string) {
     try {
       const value = content.trim();
@@ -43,8 +50,13 @@ export default function Home() {
     }
   }
 
-  // * change le status
+  // TODO change le status
+  // ? au clic sur le bouton de changement de status, changer le status de la tâche
+  // ? si le status est "done", mettre à jour la date de complétion
+  // ? sinon, remettre la date de complétion à undefined
   function handleChangeStatus(id: string, status:TaskStatus) {
+    // ? si le status est "done", mettre à jour la date de complétion
+    // ? sinon, remettre la date de complétion à undefined
     try {
       Tasks(prev =>
         prev.map(t =>
@@ -62,7 +74,9 @@ export default function Home() {
     }
   }
 
-  // * supprimer une tâche
+  // TODO supprimer une tâche
+  // ? au clic sur le bouton de suppression, supprimer la tâche
+  // ? demander une confirmation avant de supprimer
   function handleDeleteTask(id: string) {
     DeleteTask(id, () => {
       Tasks(prev => prev.filter(task => task.id !== id));
@@ -70,7 +84,6 @@ export default function Home() {
   }
 
   return (      
-    
     <div className="container">
       <main className="main">
         <header className="header">
@@ -81,6 +94,7 @@ export default function Home() {
         <div className="addTaskSection">
           <AddNewTask onAdd={handleAddTask} />
         </div>
+
 
         <select
           className="filterSelect"
@@ -103,7 +117,13 @@ export default function Home() {
               <span className="taskContent" onClick={() => HandleUpdateContent(task.id)}>{task.content}</span>
               <span className={`status ${task.status}`}></span>
               <ChangeTaskStatus task={task} onChange={handleChangeStatus} />
+              {/* 
+              // Todo bonus: n'afficher le bouton de suppression que si le status est "done"
+              {task.status === "done" && (
+                <button className="deleteButton" onClick={() => handleDeleteTask(task.id)}></button>
+              )} */}
               <button className="deleteButton" onClick={() => handleDeleteTask(task.id)}></button>
+
             </li>
           ))}
         </ul>
