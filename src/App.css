@@ -43,7 +43,6 @@
 }
 
 .taskItem {
-    display: flex;
     justify-content: space-between;
     align-items: center;
     padding: 8px 12px;
@@ -100,6 +99,11 @@
 
 .taskContent {
     cursor: pointer;
+    text-wrap: balance;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: normal;
+    max-width: 200px;
 }
 
 .addTaskSection {

@@ -11,10 +11,11 @@ import type { Task, TaskStatus } from "./Task";
 type TaskFilters = "all" | TaskStatus;
 const filters: TaskFilters[] = ["all", "todo", "doing", "done"];
 
+
 export default function Home() {
   const [allTasks, Tasks] = useState<Array<Task>>(initialTasks);
   const [filter, setFilter] = useState<TaskFilters>("all");
-
+  
   // * filtrer
   const filteredTasks = allTasks.filter(task => {
     if (filter === "all") return true;
@@ -23,7 +24,7 @@ export default function Home() {
 
   // * modifier le contenu
   function HandleUpdateContent(id: string) {
-    UpdateTask(id, Tasks);
+    UpdateTask(id, setTasks => Tasks(setTasks));
   }
 
   // * ajouter une tâche
@@ -68,7 +69,8 @@ export default function Home() {
     });
   }
 
-  return (
+  return (      
+    
     <div className="container">
       <main className="main">
         <header className="header">
